@@ -1,4 +1,4 @@
-# Hexo Configuration
+﻿# Hexo Configuration
 ## Docs: https://hexo.io/docs/configuration.html
 ## Source: https://github.com/hexojs/hexo/
 
@@ -9,6 +9,7 @@ description:
 author: Mr.zhao
 language: zh-Hans
 timezone:
+work: WEB前端开发
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
@@ -68,4 +69,7 @@ theme: next
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type:
+  type: git
+  repo: git@github.com:zhaozonghu/zhaozonghu.github.io.git
+  branch: master
+  message: 'update'

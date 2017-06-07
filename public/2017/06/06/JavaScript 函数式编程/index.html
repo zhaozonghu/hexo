@@ -1,0 +1,711 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="原文链接：http://www.jianshu.com/p/3f28249f924f 面向对象编程一直以来都是 JavaScript中的主导范式。JavaScript作为一门多范式编程语言，然而，近几年，函数式编程越来越多得受到开发者的青睐。函数式编程是一种强调减少对程序外部状态产生改变的方式。 ——由ChikaraChan分享">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript 函数式编程">
+<meta property="og:url" content="http://zhaozonghu.me/2017/06/06/JavaScript 函数式编程/index.html">
+<meta property="og:site_name" content="Mr.zhao">
+<meta property="og:description" content="原文链接：http://www.jianshu.com/p/3f28249f924f 面向对象编程一直以来都是 JavaScript中的主导范式。JavaScript作为一门多范式编程语言，然而，近几年，函数式编程越来越多得受到开发者的青睐。函数式编程是一种强调减少对程序外部状态产生改变的方式。 ——由ChikaraChan分享">
+<meta property="og:image" content="http://zhaozonghu.me/2017/06/06/JavaScript%20函数式编程/JavaScript%20函数式编程/images/a3014be5641d1bdf3e11c9cefc810b37.jpg">
+<meta property="og:image" content="http://zhaozonghu.me/2017/06/06/JavaScript%20函数式编程/JavaScript%20函数式编程/images/78adc68c4854e61db78d0a1b71134edd.jpg">
+<meta property="og:image" content="http://zhaozonghu.me/2017/06/06/JavaScript%20函数式编程/JavaScript%20函数式编程/images/93fb35c645e2d02a1cd0758841776388.jpg">
+<meta property="og:image" content="http://zhaozonghu.me/2017/06/06/JavaScript%20函数式编程/JavaScript%20函数式编程/images/9632655fd74bc1d5f23a981c08aec1d1.jpg">
+<meta property="og:image" content="http://zhaozonghu.me/2017/06/06/JavaScript%20函数式编程/JavaScript%20函数式编程/images/cbae1f26dee8983d274aa93b1063db54.jpg">
+<meta property="og:image" content="http://zhaozonghu.me/2017/06/06/JavaScript%20函数式编程/JavaScript%20函数式编程/images/7cb7412f07c12f73597fc5f04429c672.jpg">
+<meta property="og:image" content="http://zhaozonghu.me/2017/06/06/JavaScript%20函数式编程/JavaScript%20函数式编程/images/8b83c6ea50367e6619897771a63562ff.jpg">
+<meta property="og:image" content="http://zhaozonghu.me/2017/06/06/JavaScript%20函数式编程/JavaScript%20函数式编程/images/640a833fc30f2244059d508b40095b1a.jpg">
+<meta property="og:image" content="http://zhaozonghu.me/2017/06/06/JavaScript%20函数式编程/JavaScript%20函数式编程/images/1445f5547c0ee375ea2636999308e3db.jpg">
+<meta property="og:image" content="http://zhaozonghu.me/2017/06/06/JavaScript%20函数式编程/JavaScript%20函数式编程/images/68f2f5ecf7838ccdbef0500542f9781a.jpg">
+<meta property="og:updated_time" content="2017-06-01T08:08:36.003Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript 函数式编程">
+<meta name="twitter:description" content="原文链接：http://www.jianshu.com/p/3f28249f924f 面向对象编程一直以来都是 JavaScript中的主导范式。JavaScript作为一门多范式编程语言，然而，近几年，函数式编程越来越多得受到开发者的青睐。函数式编程是一种强调减少对程序外部状态产生改变的方式。 ——由ChikaraChan分享">
+<meta name="twitter:image" content="http://zhaozonghu.me/2017/06/06/JavaScript%20函数式编程/JavaScript%20函数式编程/images/a3014be5641d1bdf3e11c9cefc810b37.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zhaozonghu.me/2017/06/06/JavaScript 函数式编程/"/>
+
+
+
+
+
+  <title>JavaScript 函数式编程 | Mr.zhao</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Mr.zhao</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://zhaozonghu.me/2017/06/06/JavaScript 函数式编程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.zhao">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr.zhao">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JavaScript 函数式编程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-06T11:20:14+08:00">
+                2017-06-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>原文链接：<a href="http://www.jianshu.com/p/3f28249f924f" target="_blank" rel="external">http://www.jianshu.com/p/3f28249f924f</a> 面向对象编程一直以来都是 JavaScript<br>中的主导范式。JavaScript<br>作为一门多范式编程语言，然而，近几年，函数式编程越来越多得受到开发者的青睐。函数式编程是一种强调减少对程序外部状态产生改变的方式。 ——<br>由ChikaraChan分享</p>
+</blockquote>
+<a id="more"></a>
+<p><strong>五大特性</strong></p>
+<ul>
+<li>无副作用 </li>
+<li>不可变数据 </li>
+<li>纯函数 </li>
+<li>函数组合 </li>
+<li>函数柯里化 </li>
+</ul>
+<p><strong>无副作用</strong></p>
+<p>函数副作用是指当调用函数时，除了返回函数值之外，还对该函数外部的状态产生了改变。函数副作用会给程序设计带来不必要的麻烦，给程序带来潜在的错误，并且降低程序的可读性。</p>
+<p>一个有副作用的例子<br><img src="JavaScript 函数式编程/images/a3014be5641d1bdf3e11c9cefc810b37.jpg" alt="这里写图片描述"></p>
+<p>一个无副作用的例子</p>
+<p><img src="JavaScript 函数式编程/images/78adc68c4854e61db78d0a1b71134edd.jpg" alt="这里写图片描述"></p>
+<p><strong>不可变数据</strong></p>
+<p>不可变数据指一个值，一旦被创建，就永远不会发生改变.。在JavaScript基本数据类型中，数字、字符串和布尔值是永远不变的，但对象和数组的数据结构在某些操作下是可变的。</p>
+<p>一个可变的例子<br><img src="JavaScript 函数式编程/images/93fb35c645e2d02a1cd0758841776388.jpg" alt="这里写图片描述"></p>
+<p>数组可变<br> <img src="JavaScript 函数式编程/images/9632655fd74bc1d5f23a981c08aec1d1.jpg" alt="这里写图片描述"><br>对象可变<br>一个不可变的例子<br><img src="JavaScript 函数式编程/images/cbae1f26dee8983d274aa93b1063db54.jpg" alt="这里写图片描述"></p>
+<p>数组不可变<br> <img src="JavaScript 函数式编程/images/7cb7412f07c12f73597fc5f04429c672.jpg" alt="这里写图片描述"></p>
+<p>对象不可变</p>
+<p><strong>纯函数</strong></p>
+<p>纯函数是一种函数，它不改变程序的外部状态，也不会造成数据可变性。纯函数的输出完全依赖于它的输入值，对于相同的输入，永远返回相同的输出。</p>
+<p>一个纯函数的例子<br><img src="JavaScript 函数式编程/images/8b83c6ea50367e6619897771a63562ff.jpg" alt="这里写图片描述"></p>
+<p>函数组合</p>
+<p>函数组合指把多个函数通过嵌套的方式，把函数作为入参传入，把函数作为返回值传出，组合成为一个全新的函数，形成管道数据流。</p>
+<p>一个函数组合的例子<br><img src="JavaScript 函数式编程/images/640a833fc30f2244059d508b40095b1a.jpg" alt="这里写图片描述"></p>
+<p><strong>函数柯里化</strong></p>
+<p>函数柯里化指把接受多个参数的多参函数转换成每次只接受一个参数的单参函数，并且返回可以接受余下参数的新函数，最大的特点是延迟执行，增加了函数的适用性。</p>
+<p>多参函数<br><img src="JavaScript 函数式编程/images/1445f5547c0ee375ea2636999308e3db.jpg" alt="这里写图片描述"></p>
+<p>单参函数(柯里化函数)<br><img src="JavaScript 函数式编程/images/68f2f5ecf7838ccdbef0500542f9781a.jpg" alt="这里写图片描述"></p>
+<p>函数式编程的典型应用</p>
+<p>Redux的设计与用法完全采用函数式编程的理念，建议阅读源码来进一步提升对函数式编程的认识</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/06/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Mr.zhao" />
+          <p class="site-author-name" itemprop="name">Mr.zhao</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mr.zhao</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
