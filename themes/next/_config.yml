@@ -167,7 +167,7 @@ social_icons:
 # Table Of Contents in the Sidebar
 toc:
   enable: true
-
+  
   # Automatically add list number to toc.
   number: true
 

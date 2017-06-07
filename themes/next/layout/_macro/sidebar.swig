@@ -124,7 +124,8 @@
         {% endif %}
 
         {% include '../_custom/sidebar.swig' %}
-
+        <br/>
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=380 src="//music.163.com/outchain/player?type=0&id=754337961&auto=0&height=430"></iframe>
       </section>
 
       {% if display_toc and toc(page.content).length > 1 %}
