@@ -1613,7 +1613,7 @@ pre .javascript .function {
   display: block;
   margin: 0 auto;
   padding: 2px;
-  max-width: 96px;
+  max-width: 110px;
   height: auto;
   border: 2px solid #333;
   border-radius: 50%;
@@ -1736,7 +1736,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #22e0b3;
+  background: #a1ffff;
 }
 .links-of-blogroll {
   font-size: 13px;
