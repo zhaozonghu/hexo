@@ -54,10 +54,17 @@ tags: node
 	var rev = require('gulp-rev');//- 对文件名加MD5后缀
 	var revCollector = require('gulp-rev-collector');//- 路径替换
 	var babel = require('gulp-babel');//ES6编译为ES2015
+	var less = require('gulp-less');//less编译
+	var plumber = require('gulp-plumber');//异常处理
+	var notify = require('gulp-notify');
+	var autoprefixer = require('gulp-autoprefixer');//css3前缀自动补全
 
 	//清除文件
 	gulp.task('clean',function(cb){
-		del(['./dist/**/*'],cb);
+		del(['./dist/**/*','./rev/**/*'],cb);
+	});
+	gulp.task('cleanCss',function(cb){
+		del(['./dist/css/*'],cb);
 	});
 	//压缩、合并js
 	gulp.task('js',function(){
@@ -72,10 +79,17 @@ tags: node
 			.pipe(rev())
 			.pipe(gulp.dest('./dist/js/'))
 			.pipe(rev.manifest())
-			.pipe(gulp.dest('./dist/rev/js'));
+			.pipe(gulp.dest('./rev/js'));
+	});
+	//less编译
+	gulp.task('less2css',function(){
+		return gulp.src('./less/common.less')
+			.pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))  //异常处理
+			.pipe(less())
+			.pipe(gulp.dest('./css/'))
 	});
 	//压缩、合并css
-	gulp.task('css',function(){
+	gulp.task('css',['less2css'],function(){
 		return gulp.src('./css/*.css')
 			.pipe(cleanCSS())
 			.pipe(concat('all'))
@@ -86,7 +100,15 @@ tags: node
 			.pipe(rev())
 			.pipe(gulp.dest('./dist/css/'))
 			.pipe(rev.manifest())
-			.pipe(gulp.dest('./dist/rev/css'));
+			.pipe(gulp.dest('./rev/css'));
+	});
+	//css3前缀补全
+	gulp.task('autoFx',['css'],function(){
+	   return gulp.src('./dist/css/*.css')
+			.pipe(autoprefixer({
+				browsers: ['last 5 versions']
+			}))
+			.pipe(gulp.dest('./dist/css'));
 	});
 	//压缩html
 	gulp.task('html', function() {
@@ -117,13 +139,19 @@ tags: node
 	});
 
 	//文件路径替换
-	gulp.task('rev',function(){
-		return gulp.src(['./dist/rev/**/*.json','./dist/*.html'])
+	gulp.task('rev',['autoFx','js'],function(){
+		return gulp.src(['./rev/**/*.json','./dist/*.html'])
 			.pipe(revCollector({replaceReved: true}))
 			.pipe(gulp.dest('./dist/'));
 	});
 
+	//监听less修改
+	gulp.task('lessWatch', function () {
+		gulp.watch('./less/*.less', ['cleanCss','rev']);
+	});
+
 	gulp.task('tigger',['css','js','img','html']);
+
 	
 ##### 插件地址
 
@@ -139,6 +167,7 @@ tags: node
 10. [gulp-imagemin](https://www.npmjs.com/package/gulp-imagemin)：压缩jpg、png、gif等图片
 11. [gulp-rev](https://www.npmjs.com/package/gulp-rev/)：版本控制
 12. [gulp-rev-collector](https://www.npmjs.com/package/gulp-rev-collector/)：文件名称替换（rev）
+13. [gulp-autoprefixer](https://www.npmjs.com/package/gulp-autoprefixer)：css3前缀补全
 
 > [gulp中文教程](http://www.gulpjs.com.cn/)
 

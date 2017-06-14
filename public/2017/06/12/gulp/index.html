@@ -99,7 +99,7 @@
 <meta property="og:url" content="http://zhaozonghu.me/2017/06/12/gulp/index.html">
 <meta property="og:site_name" content="Mr.zhao">
 <meta property="og:image" content="http://or49syh5a.bkt.clouddn.com/525072a07f737c14623sfefs1.png">
-<meta property="og:updated_time" content="2017-06-12T09:41:21.038Z">
+<meta property="og:updated_time" content="2017-06-14T02:07:59.030Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Gulp 自动化构建工具-初探">
 <meta name="twitter:image" content="http://or49syh5a.bkt.clouddn.com/525072a07f737c14623sfefs1.png">
@@ -378,10 +378,17 @@ var del = require(&apos;del&apos;);//清除文件
 var rev = require(&apos;gulp-rev&apos;);//- 对文件名加MD5后缀
 var revCollector = require(&apos;gulp-rev-collector&apos;);//- 路径替换
 var babel = require(&apos;gulp-babel&apos;);//ES6编译为ES2015
+var less = require(&apos;gulp-less&apos;);//less编译
+var plumber = require(&apos;gulp-plumber&apos;);//异常处理
+var notify = require(&apos;gulp-notify&apos;);
+var autoprefixer = require(&apos;gulp-autoprefixer&apos;);//css3前缀自动补全
 
 //清除文件
 gulp.task(&apos;clean&apos;,function(cb){
-    del([&apos;./dist/**/*&apos;],cb);
+    del([&apos;./dist/**/*&apos;,&apos;./rev/**/*&apos;],cb);
+});
+gulp.task(&apos;cleanCss&apos;,function(cb){
+    del([&apos;./dist/css/*&apos;],cb);
 });
 //压缩、合并js
 gulp.task(&apos;js&apos;,function(){
@@ -396,10 +403,17 @@ gulp.task(&apos;js&apos;,function(){
         .pipe(rev())
         .pipe(gulp.dest(&apos;./dist/js/&apos;))
         .pipe(rev.manifest())
-        .pipe(gulp.dest(&apos;./dist/rev/js&apos;));
+        .pipe(gulp.dest(&apos;./rev/js&apos;));
+});
+//less编译
+gulp.task(&apos;less2css&apos;,function(){
+    return gulp.src(&apos;./less/common.less&apos;)
+        .pipe(plumber({errorHandler: notify.onError(&apos;Error: &lt;%= error.message %&gt;&apos;)}))  //异常处理
+        .pipe(less())
+        .pipe(gulp.dest(&apos;./css/&apos;))
 });
 //压缩、合并css
-gulp.task(&apos;css&apos;,function(){
+gulp.task(&apos;css&apos;,[&apos;less2css&apos;],function(){
     return gulp.src(&apos;./css/*.css&apos;)
         .pipe(cleanCSS())
         .pipe(concat(&apos;all&apos;))
@@ -410,7 +424,15 @@ gulp.task(&apos;css&apos;,function(){
         .pipe(rev())
         .pipe(gulp.dest(&apos;./dist/css/&apos;))
         .pipe(rev.manifest())
-        .pipe(gulp.dest(&apos;./dist/rev/css&apos;));
+        .pipe(gulp.dest(&apos;./rev/css&apos;));
+});
+//css3前缀补全
+gulp.task(&apos;autoFx&apos;,[&apos;css&apos;],function(){
+   return gulp.src(&apos;./dist/css/*.css&apos;)
+        .pipe(autoprefixer({
+            browsers: [&apos;last 5 versions&apos;]
+        }))
+        .pipe(gulp.dest(&apos;./dist/css&apos;));
 });
 //压缩html
 gulp.task(&apos;html&apos;, function() {
@@ -441,10 +463,15 @@ gulp.task(&apos;img&apos;, function(){
 });
 
 //文件路径替换
-gulp.task(&apos;rev&apos;,function(){
-    return gulp.src([&apos;./dist/rev/**/*.json&apos;,&apos;./dist/*.html&apos;])
+gulp.task(&apos;rev&apos;,[&apos;autoFx&apos;,&apos;js&apos;],function(){
+    return gulp.src([&apos;./rev/**/*.json&apos;,&apos;./dist/*.html&apos;])
         .pipe(revCollector({replaceReved: true}))
         .pipe(gulp.dest(&apos;./dist/&apos;));
+});
+
+//监听less修改
+gulp.task(&apos;lessWatch&apos;, function () {
+    gulp.watch(&apos;./less/*.less&apos;, [&apos;cleanCss&apos;,&apos;rev&apos;]);
 });
 
 gulp.task(&apos;tigger&apos;,[&apos;css&apos;,&apos;js&apos;,&apos;img&apos;,&apos;html&apos;]);
@@ -461,6 +488,7 @@ gulp.task(&apos;tigger&apos;,[&apos;css&apos;,&apos;js&apos;,&apos;img&apos;,&ap
 <li><a href="https://www.npmjs.com/package/gulp-imagemin" target="_blank" rel="external">gulp-imagemin</a>：压缩jpg、png、gif等图片</li>
 <li><a href="https://www.npmjs.com/package/gulp-rev/" target="_blank" rel="external">gulp-rev</a>：版本控制</li>
 <li><a href="https://www.npmjs.com/package/gulp-rev-collector/" target="_blank" rel="external">gulp-rev-collector</a>：文件名称替换（rev）</li>
+<li><a href="https://www.npmjs.com/package/gulp-autoprefixer" target="_blank" rel="external">gulp-autoprefixer</a>：css3前缀补全</li>
 </ol>
 <blockquote>
 <p><a href="http://www.gulpjs.com.cn/" target="_blank" rel="external">gulp中文教程</a></p>
