@@ -58,6 +58,7 @@ tags: node
 	var plumber = require('gulp-plumber');//异常处理
 	var notify = require('gulp-notify');
 	var autoprefixer = require('gulp-autoprefixer');//css3前缀自动补全
+	var px2rem = require('gulp-px3rem');//px转换rem
 
 	//清除文件
 	gulp.task('clean',function(cb){
@@ -109,6 +110,12 @@ tags: node
 				browsers: ['last 5 versions']
 			}))
 			.pipe(gulp.dest('./dist/css'));
+	});
+	//css px2rem
+	gulp.task('px2rem', function() {
+		return gulp.src('./dist/css/*.css')
+			.pipe(px2rem())
+			.pipe(gulp.dest('./dist/css'))
 	});
 	//压缩html
 	gulp.task('html', function() {
@@ -168,6 +175,7 @@ tags: node
 11. [gulp-rev](https://www.npmjs.com/package/gulp-rev/)：版本控制
 12. [gulp-rev-collector](https://www.npmjs.com/package/gulp-rev-collector/)：文件名称替换（rev）
 13. [gulp-autoprefixer](https://www.npmjs.com/package/gulp-autoprefixer)：css3前缀补全
+14. [gulp-px3rem](https://www.npmjs.com/package/gulp-px3rem)：css3前缀补全
 
 > [gulp中文教程](http://www.gulpjs.com.cn/)
 

@@ -100,7 +100,7 @@
 <meta property="og:url" content="http://zhaozonghu.me/2017/06/08/js-common-fun/index.html">
 <meta property="og:site_name" content="Mr.zhao">
 <meta property="og:description" content="正则表达式获取地址栏参数function GetQueryString(t){     var n = new RegExp(&amp;quot;(^|&amp;amp;)&amp;quot; + t + &amp;quot;=([^&amp;amp;]*)(&amp;amp;|$)&amp;quot;, &amp;quot;i&amp;quot;), e = window.location.search.substr(1).match(n);     return">
-<meta property="og:updated_time" content="2017-06-08T06:20:09.518Z">
+<meta property="og:updated_time" content="2017-09-04T07:52:27.686Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Javascript常用方法">
 <meta name="twitter:description" content="正则表达式获取地址栏参数function GetQueryString(t){     var n = new RegExp(&amp;quot;(^|&amp;amp;)&amp;quot; + t + &amp;quot;=([^&amp;amp;]*)(&amp;amp;|$)&amp;quot;, &amp;quot;i&amp;quot;), e = window.location.search.substr(1).match(n);     return">
@@ -139,22 +139,6 @@
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   
   
@@ -423,6 +407,91 @@ function getSpecialTimeStr(t) {
     }
     return r &gt;= o ? Math.floor(r / o) + &quot;小时前&quot; : r &gt;= u ? Math.floor(r / u) + &quot;分钟前&quot; : &quot;最新&quot;
 }
+</code></pre><h6 id="数组扩展方法"><a href="#数组扩展方法" class="headerlink" title="数组扩展方法"></a>数组扩展方法</h6><pre><code>//删除指定元素
+Array.prototype.remove = function(val) {
+    var index = this.indexOf(val);
+    if (index &gt; -1) {
+        this.splice(index, 1);
+    }
+};
+//集合取交集
+Array.intersect = function () {
+    var result = new Array();
+    var obj = {};
+    for (var i = 0; i &lt; arguments.length; i++) {
+        for (var j = 0; j &lt; arguments[i].length; j++) {
+            var str = arguments[i][j];
+            if (!obj[str]) {
+                obj[str] = 1;
+            }
+            else {
+                obj[str]++;
+                if (obj[str] == arguments.length)
+                {
+                    result.push(str);
+                }
+            }//end else
+        }//end for j
+    }//end for i
+    return result;
+}
+//集合去掉重复
+Array.prototype.uniquelize = function () {
+    var tmp = {},
+        ret = [];
+    for (var i = 0, j = this.length; i &lt; j; i++) {
+        if (!tmp[this[i]]) {
+            tmp[this[i]] = 1;
+            ret.push(this[i]);
+        }
+    }
+    return ret;
+}
+//并集
+Array.union = function () {
+    var arr = new Array();
+    var obj = {};
+    for (var i = 0; i &lt; arguments.length; i++) {
+        for (var j = 0; j &lt; arguments[i].length; j++)
+        {
+            var str=arguments[i][j];
+            if (!obj[str])
+            {
+                obj[str] = 1;
+                arr.push(str);
+            }
+        }//end for j
+    }//end for i
+    return arr;
+}
+
+//2个集合的差集 在arr不存在
+Array.prototype.minus = function (arr) {
+    var result = new Array();
+    var obj = {};
+    for (var i = 0; i &lt; arr.length; i++) {
+        obj[arr[i]] = 1;
+    }
+    for (var j = 0; j &lt; this.length; j++) {
+        if (!obj[this[j]])
+        {
+            obj[this[j]] = 1;
+            result.push(this[j]);
+        }
+    }
+    return result;
+}
+//数组随机显示
+Array.prototype.shuffle = function() {
+    var input = this;
+    for (var i = input.length-1; i &gt;=0; i--) {
+        var randomIndex = Math.floor(Math.random()*(i+1));
+        var itemAtIndex = input[randomIndex];
+        input[randomIndex] = input[i];
+        input[i] = itemAtIndex;
+    }
+    return input;
+}
 </code></pre><h6 id="公用方法"><a href="#公用方法" class="headerlink" title="公用方法"></a>公用方法</h6><pre><code>var GLOBAL = {},
  GLOBAL.Js = {
     trim: function (t) {
@@ -631,7 +700,7 @@ GLOBAL.Browser = function () {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -642,7 +711,7 @@ GLOBAL.Browser = function () {
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -653,7 +722,7 @@ GLOBAL.Browser = function () {
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
@@ -687,7 +756,6 @@ GLOBAL.Browser = function () {
         
 
         <br/>
-        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=380 src="//music.163.com/outchain/player?type=0&id=754337961&auto=0&height=380"></iframe>
       </section>
 
       
@@ -700,7 +768,7 @@ GLOBAL.Browser = function () {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-6"><a class="nav-link" href="#正则表达式获取地址栏参数"><span class="nav-number">1.</span> <span class="nav-text">正则表达式获取地址栏参数</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#获取指定数量随机数"><span class="nav-number">2.</span> <span class="nav-text">获取指定数量随机数</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#获取浏览器类型"><span class="nav-number">3.</span> <span class="nav-text">获取浏览器类型</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#获取设备系统类型及版本号"><span class="nav-number">4.</span> <span class="nav-text">获取设备系统类型及版本号</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#向页面注入js代码"><span class="nav-number">5.</span> <span class="nav-text">向页面注入js代码</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#向页面注入css代码"><span class="nav-number">6.</span> <span class="nav-text">向页面注入css代码</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#时间格式化"><span class="nav-number">7.</span> <span class="nav-text">时间格式化</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#公用方法"><span class="nav-number">8.</span> <span class="nav-text">公用方法</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-6"><a class="nav-link" href="#正则表达式获取地址栏参数"><span class="nav-number">1.</span> <span class="nav-text">正则表达式获取地址栏参数</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#获取指定数量随机数"><span class="nav-number">2.</span> <span class="nav-text">获取指定数量随机数</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#获取浏览器类型"><span class="nav-number">3.</span> <span class="nav-text">获取浏览器类型</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#获取设备系统类型及版本号"><span class="nav-number">4.</span> <span class="nav-text">获取设备系统类型及版本号</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#向页面注入js代码"><span class="nav-number">5.</span> <span class="nav-text">向页面注入js代码</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#向页面注入css代码"><span class="nav-number">6.</span> <span class="nav-text">向页面注入css代码</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#时间格式化"><span class="nav-number">7.</span> <span class="nav-text">时间格式化</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#数组扩展方法"><span class="nav-number">8.</span> <span class="nav-text">数组扩展方法</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#公用方法"><span class="nav-number">9.</span> <span class="nav-text">公用方法</span></a></li></ol></div>
             
 
           </div>
@@ -723,11 +791,12 @@ GLOBAL.Browser = function () {
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Mr.zhao</span>
+  <span>&nbsp;&nbsp;&nbsp;<a href="http://www.miibeian.gov.cn/" target="_blank">蜀ICP备17018804号-1</a></span>
 </div>
 
 
@@ -756,6 +825,10 @@ GLOBAL.Browser = function () {
   
 
   
+  
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1271905909'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/stat.php%3Fid%3D1271905909%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+
+
 </div>
 
 

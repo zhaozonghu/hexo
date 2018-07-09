@@ -97,6 +97,94 @@ tags: [web,js]
         return r >= o ? Math.floor(r / o) + "小时前" : r >= u ? Math.floor(r / u) + "分钟前" : "最新"
     }
 	
+###### 数组扩展方法
+	
+	//删除指定元素
+	Array.prototype.remove = function(val) {
+		var index = this.indexOf(val);
+		if (index > -1) {
+			this.splice(index, 1);
+		}
+	};
+	//集合取交集
+	Array.intersect = function () {
+		var result = new Array();
+		var obj = {};
+		for (var i = 0; i < arguments.length; i++) {
+			for (var j = 0; j < arguments[i].length; j++) {
+				var str = arguments[i][j];
+				if (!obj[str]) {
+					obj[str] = 1;
+				}
+				else {
+					obj[str]++;
+					if (obj[str] == arguments.length)
+					{
+						result.push(str);
+					}
+				}//end else
+			}//end for j
+		}//end for i
+		return result;
+	}
+	//集合去掉重复
+	Array.prototype.uniquelize = function () {
+		var tmp = {},
+			ret = [];
+		for (var i = 0, j = this.length; i < j; i++) {
+			if (!tmp[this[i]]) {
+				tmp[this[i]] = 1;
+				ret.push(this[i]);
+			}
+		}
+		return ret;
+	}
+	//并集
+	Array.union = function () {
+		var arr = new Array();
+		var obj = {};
+		for (var i = 0; i < arguments.length; i++) {
+			for (var j = 0; j < arguments[i].length; j++)
+			{
+				var str=arguments[i][j];
+				if (!obj[str])
+				{
+					obj[str] = 1;
+					arr.push(str);
+				}
+			}//end for j
+		}//end for i
+		return arr;
+	}
+
+	//2个集合的差集 在arr不存在
+	Array.prototype.minus = function (arr) {
+		var result = new Array();
+		var obj = {};
+		for (var i = 0; i < arr.length; i++) {
+			obj[arr[i]] = 1;
+		}
+		for (var j = 0; j < this.length; j++) {
+			if (!obj[this[j]])
+			{
+				obj[this[j]] = 1;
+				result.push(this[j]);
+			}
+		}
+		return result;
+	}
+	//数组随机显示
+	Array.prototype.shuffle = function() {
+		var input = this;
+		for (var i = input.length-1; i >=0; i--) {
+			var randomIndex = Math.floor(Math.random()*(i+1));
+			var itemAtIndex = input[randomIndex];
+			input[randomIndex] = input[i];
+			input[i] = itemAtIndex;
+		}
+		return input;
+	}
+	
 ###### 公用方法
 
 	var GLOBAL = {},

@@ -1,0 +1,962 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="web,js," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="如何按照产品要求实现多平台下一致的分享效果，包括分享文案的动态生成，在没有Native的帮助下是比较困难的。下面总结了一套较为完整的分享方案。">
+<meta name="keywords" content="web,js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="移动端H5多平台分享实践">
+<meta property="og:url" content="http://zhaozonghu.me/2018/02/06/share/index.html">
+<meta property="og:site_name" content="Mr.zhao">
+<meta property="og:description" content="如何按照产品要求实现多平台下一致的分享效果，包括分享文案的动态生成，在没有Native的帮助下是比较困难的。下面总结了一套较为完整的分享方案。">
+<meta property="og:updated_time" content="2018-02-06T03:39:54.231Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="移动端H5多平台分享实践">
+<meta name="twitter:description" content="如何按照产品要求实现多平台下一致的分享效果，包括分享文案的动态生成，在没有Native的帮助下是比较困难的。下面总结了一套较为完整的分享方案。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+
+
+
+
+  <title>移动端H5多平台分享实践 | Mr.zhao</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Mr.zhao</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://zhaozonghu.me/2018/02/06/share/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.zhao">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr.zhao">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">移动端H5多平台分享实践</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-06T10:58:16+08:00">
+                2018-02-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>如何按照产品要求实现多平台下一致的分享效果，包括分享文案的动态生成，在没有Native的帮助下是比较困难的。下面总结了一套较为完整的分享方案。<br><a id="more"></a></p>
+<h4 id="微信分享"><a href="#微信分享" class="headerlink" title="微信分享"></a>微信分享</h4><p>微信下的分享通过调用微信提供的JS-SDK和引导用户点击右上角完成。 使用微信的JS-SDK需要引入如下js文件：</p>
+<pre><code>&lt;script src=&quot;//res.wx.qq.com/open/js/jweixin-1.3.1.js&quot;&gt;&lt;/script&gt;
+</code></pre><p>设置分享内容的代码如下：</p>
+<pre><code>wx.config({
+    debug: false,
+    appId: &apos;公众号的appid&apos;,
+    timestamp: &apos;时间戳&apos;,
+    nonceStr: &apos;随机字符串&apos;,
+    signature: &apos;签名&apos;,
+    jsApiList: [&apos;onMenuShareTimeline&apos;, &apos;onMenuShareAppMessage&apos;, &apos;onMenuShareQQ&apos;, &apos;onMenuShareWeibo&apos;, &apos;onMenuShareQZone&apos;, &apos;showOptionMenu&apos;, &apos;hideAllNonBaseMenuItem&apos;, &apos;showAllNonBaseMenuItem&apos;]
+});
+
+wx.ready(function() {
+    const share = {
+        title: &apos;分享标题（朋友圈只显示标题）&apos;,
+        desc: &apos;分享内容&apos;,
+        imgUrl: &apos;图片URL&apos;,
+        link: &apos;分享链接（最好是后台JS安全域名）&apos;,
+        success: function() {
+            hideMaskLayer();  // 分享成功，隐藏引导用户分享的浮层
+        },
+        cancel: function() {
+        }
+    };
+    wx.onMenuShareAppMessage(share);  // 微信好友
+    wx.onMenuShareTimeline(share);  // 朋友圈
+    wx.onMenuShareQQ(share);  // QQ
+    wx.onMenuShareQZone(share);  // QQ空间
+    wx.onMenuShareWeibo(share);  // 腾讯微博
+});
+</code></pre><p>其中wx.config中的参数由服务端得到，具体可参见微信的开发文档：<a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421141115" target="_blank" rel="external">https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421141115</a> 注意在公众号后台设置JS安全域名</p>
+<h4 id="qqtim的分享"><a href="#QQ-TIM的分享" class="headerlink" title="QQ/TIM的分享"></a>QQ/TIM的分享</h4><p>1 通过JS API分享</p>
+<p>QQ（以下无特殊说明TIM下同样有效）下也有设置分享内容的API，同样需要先引用JSBridge相关的文件：<tr script="" src="//open.mobile.qq.com/sdk/qqapi.js">&lt;/ script&gt;<br>设置分享内容的代码如下：</tr></p>
+<pre><code>const share = {
+    title: &apos;分享标题，最大45字节&apos;,
+    desc: &apos;分享内容，最大60字节&apos;,
+    image_url: &apos;图片URL&apos;,
+    share_url: &apos;分享链接&apos;
+};
+mqq.data.setShareInfo(share, callback);
+</code></pre><p>需要注意的是：分享链接长度不能超过120字节，并且必须跟页面URL同一个域名，否则设置不生效；分享的图片最小需要200 * 200，否则分享到QQ空间时会被过滤掉。<br>设置完分享内容后，可通过API调用唤起QQ的分享面板，免去引导的过程。</p>
+<pre><code>mqq.ui.showShareMenu();
+</code></pre><p>还有一种方法，QQ提供了监听点击分享平台的事件，当点击Native分享面板中的分享平台时，会触发此事件，QQ默认的分享行为将不再执行。代码如下：</p>
+<pre><code>mqq.ui.setOnShareHandler(function (platform) {
+    mqq.ui.shareMessage({
+        title: &apos;分享标题&apos;,
+        desc: &apos;分享内容&apos;,
+        share_type: platform,
+        share_url: &apos;分享链接&apos;,
+        image_url: &apos;图片URL&apos;,
+        sourceName: &apos;掌上理工大&apos;,
+        back: true
+    }, function() {
+    });
+});
+</code></pre><p>其中platform是分享平台类型，取值如下：</p>
+<pre><code>编号        分享平台
+0          QQ好友
+1          QQ空间
+2          微信好友
+3          微信朋友圈
+</code></pre><p>2 通过meta标签分享<br>QQ也支持通过设置meta标签定义分享内容。通过定义itemprop可设置分享内容，同时为了更好的兼容其它平台，我们也引入了Open Graph标准。代码如下：</p>
+<pre><code>&lt;meta itemprop=&quot;name&quot; property=&quot;og:title&quot; content=&quot;分享标题&quot;&gt;
+&lt;meta property=&quot;og:url&quot; content=&quot;分享链接&quot;&gt;
+&lt;meta itemprop=&quot;image&quot; property=&quot;og:image&quot; content=&quot;图片URL&quot;&gt;
+&lt;meta name=&quot;description&quot; itemprop=&quot;description&quot; property=&quot;og:description&quot; content=&quot;分享描述&quot;&gt;
+</code></pre><p>需要注意的是，meta标签需要是服务端渲染输出，通过js生成或修改无效。</p>
+<p>3 通过URL Scheme唤起QQ分享<br>还可以通过URL Scheme唤起QQ进行分享，该方法的好处在于可以在非QQ环境下唤起QQ实现分享，缺点在于不能设置分享图片。代码如下：</p>
+<pre><code>const share = {
+    title: &apos;分享标题&apos;,
+    desc: &apos;分享内容&apos;,
+    share_url: &apos;分享链接&apos;
+};
+const url_scheme = &apos;//share/to_fri?src_type=web&amp;version=1&amp;file_type=news&amp;share_id=1103437993&amp;title=&apos; + Base64.encode(share.title) + &apos;&amp;thirdAppDisplayName=5o6M5LiK55CG5bel5aSn&amp;url=&apos; + Base64.encode(share.share_url) + &apos;&amp;description=&apos; + Base64.encode(share.desc);
+location.assign(&apos;mqqapi:&apos; + url_scheme);
+setTimeout(function() {
+    location.assign(&apos;timapi:&apos; + url_scheme);
+}, 2000);
+</code></pre><p>其中分享的参数在拼入URL中时需要Base64编码。为了支持TIM下的分享，我们引入了延时函数，如果唤起QQ失败该定时器将会执行唤起TIM，唤起成功离开了此页面将不会执行。QQ和TIM均安装时优先唤起QQ。</p>
+<p>4 通过分享组件的URL实现<br>QQ空间提供了分享组件（可参见：<a href="https://connect.qq.com/intro/share），通过分析该组件可得到分享URL的参数。代码如下：" target="_blank" rel="external">https://connect.qq.com/intro/share），通过分析该组件可得到分享URL的参数。代码如下：</a></p>
+<pre><code>const share = {
+    title: &apos;分享标题&apos;,
+    desc: &apos;分享内容&apos;,
+    image_url: [&apos;图片URL&apos;],
+    share_url: &apos;分享链接&apos;
+};
+let image_urls = share.image_url.map(function(image) {
+    return encodeURIComponent(image);
+});
+location.replace(&apos;https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=&apos; + encodeURIComponent(share.share_url) + &apos;&amp;site=xxxx&amp;title=&apos; + share.title + &apos;&amp;pics=&apos; + image_urls.join(&apos;|&apos;) + &apos;&amp;summary=&apos; + share.desc);
+</code></pre><p>其中可支持多图片的分享，图片URL用竖线分隔。该方法优点在于同样支持非QQ环境下的分享。非QQ下用户登录后即可分享，QQ下可免登直接分享。</p>
+<h4 id="微博的分享"><a href="#微博的分享" class="headerlink" title="微博的分享"></a>微博的分享</h4><p>1 通过分享组件的URL实现<br>微博同样提供了分享组件，通过分析URL可得到分享参数。代码如下：</p>
+<pre><code>const share = {
+    title: &apos;分享标题&apos;,
+    image_url: &apos;图片URL&apos;,
+    share_url: &apos;分享链接&apos;
+};
+location.replace(&apos;https://service.weibo.com/share/share.php?url=&apos; + encodeURIComponent(share.share_url) + &apos;&amp;title=&apos; + share.title + &apos;&amp;appkey=277159429&amp;&amp;ralateUid=1855112015&amp;pic=&apos; + share.image_url + &apos;&amp;searchPic=true&apos;);
+</code></pre><p>其中appKey参数可选，如果设置微博将会显示分享来源为key对应的应用名称（应用可在 <a href="https://open.weibo.com/" target="_blank" rel="external">https://open.weibo.com/</a> 注册）；ralateUid参数可选，指定微博用户id，会在微博尾部at此用户；searchPic用于控制是否自动爬取页面的图片，和pic不共存。</p>
+<p>2 通过微博API自动发送微博<br>微博提供了API可通过服务端调用接口直接发送一条微博。</p>
+<pre><code>POST https://api.weibo.com/2/statuses/share.json
+</code></pre><p>参数如下：</p>
+<pre><code>参数            必选            类型及范围         说明编号
+access_token    是               string           采用OAuth授权方式为必填参数，OAuth授权后获得。
+status          是               string           用户分享到微博的文本内容，必须URL Encode，文本中不能包含“#话题词#”，同时文本中必须包含至少一个分享的URL，且该URL的域名需要在后台设置。
+pic             否               binary           用户分享到微博的图片，仅支持JPEG、GIF、PNG图片，上传图片大小限制为5M。上传图片时，POST方式提交请求，需要采用multipart/form-data编码方式。
+rip             否               string           开发者上报的操作用户真实IP，形如：211.156.0.1。
+</code></pre><p>具体可参见：<a href="http://open.weibo.com/wiki/2/statuses/share" target="_blank" rel="external">微博开放平台</a></p>
+<p>3 通过JS API分享<br>微博同样有提供JS-SDK可供调用Native的方法，在使用前需要在微博开放平台申请轻应用，并设置安全域名。<br>使用微信的JS-SDK需要引入如下js文件：</p>
+<pre><code>&lt;script src=&quot;//tjs.sjs.sinajs.cn/open/thirdpart/js/jsapi/mobile.js&quot;&gt;&lt;/script&gt;
+</code></pre><p>同样需要先设置初始化参数。</p>
+<pre><code>WeiboJS.init({
+    appkey : &apos;轻应用key&apos;,
+    debug: false,
+    timestamp: &apos;时间戳&apos;,
+    noncestr: &apos;随机字符串&apos;,
+    signature: &apos;签名&apos;,
+    scope: [&apos;openMenu&apos;, &apos;setMenuItems&apos;, &apos;menuItemSelected&apos;, &apos;setSharingContent&apos;]
+}, function() {
+});
+</code></pre><p>有3个关于分享的JS API可供使用。</p>
+<pre><code>openMenu
+</code></pre><p>该API可调起Native的分享面板。</p>
+<pre><code>WeiboJS.invoke(&apos;openMenu&apos;);
+setSharingContent
+</code></pre><p>该API可设置分享的内容。</p>
+<pre><code>WeiboJS.invoke(&apos;openMenu&apos;, {
+    icon: share.title,
+    desc: share.desc,
+    icon: share.image_url
+});
+
+invokeMenuItem
+</code></pre><p>该API可以直接触发分享面板中点击相应菜单项。</p>
+<pre><code>WeiboJS.invoke(&apos;invokeMenuItem&apos;, { 
+    code: platform
+});
+</code></pre><p>其中platform是分享平台类型，取值如下：</p>
+<pre><code>编号            分享平台
+1001            微博
+1002            微博好友圈
+1003            微博私信
+1004            微信好友
+1005            微信朋友圈
+1006            微米好友
+1007            微米圈
+1008            来往（点点虫）好友
+1009            来往（点点虫）动态
+1010            QQ好友
+1011            QQ空间
+1101            短信
+2001            系统浏览器
+2002            复制链接
+</code></pre><p>通过使用API 1 + API 2（最佳）或API 2 + API 3即可实现分享。具体可参见微博的开发文档：<br><a href="http://open.weibo.com/wiki/%E8%BD%BB%E5%BA%94%E7%94%A8H5%E6%96%B0%E7%89%88JS" target="_blank" rel="external">open.weibo.com/wiki/轻应用H5新…</a></p>
+<h4 id="支付宝的分享"><a href="#支付宝的分享" class="headerlink" title="支付宝的分享"></a>支付宝的分享</h4><p>支付宝同样提供了JS API，可以很方便的设置分享内容和唤起Native分享面板；不足之处在于不支持分享到QQ、微信等平台。<br>使用支付宝的JS-SDK需要引入如下js文件：</p>
+<pre><code>&lt;script src=&quot;//a.alipayobjects.com/g/h5-lib/alipayjsapi/3.0.6/alipayjsapi.inc.min.js&quot;&gt;&lt;/script&gt;
+</code></pre><p>代码如下：</p>
+<pre><code>const share = {
+    title: &apos;分享标题&apos;,
+    content: &apos;分享内容&apos;,
+    image: &apos;图片URL&apos;,
+    url: &apos;分享链接&apos;,
+    captureScreen: false,
+    showToolBar: false
+};
+ap.share(share, function() {
+});
+</code></pre><h4 id="uc浏览器的分享"><a href="#UC浏览器的分享" class="headerlink" title="UC浏览器的分享"></a>UC浏览器的分享</h4><p>UC浏览器也提供了JS API调用Native的分享，支持唤起分享面板和分享到具体平台。代码如下：</p>
+<pre><code>const share = {
+    title: &apos;分享标题&apos;,
+    desc: &apos;分享内容&apos;,
+    image_url: &apos;图片URL&apos;,
+    share_url: &apos;分享链接&apos;
+};
+const isiOS = /(iPhone|iPad|iPod)/.test(navigator.userAgent);  // 判断应用平台
+if (isiOS) {
+    if (ucbrowser.web_shareEX) {
+        ucbrowser.web_shareEX(
+            JSON.stringify({
+                title: share.title,
+                content: share.desc,
+                sourceUrl: share.share_url,
+                imageUrl: share.image_url,
+                source: &apos;掌上理工大&apos;,
+                target: platform
+            })
+        )
+    } else {
+        ucbrowser.web_share(share.title, share.desc, share.share_url, platform, &apos;&apos;, &apos;掌上理工大&apos;, share.image_url);
+    }
+}
+else ucweb.startRequest(&apos;shell.page_share&apos;, [share.title, share.desc, share.share_url, platform, &apos;&apos;, &apos;掌上理工大&apos;, share.image_url]);
+</code></pre><p>其中platform是分享平台类型，取值如下：</p>
+<p>Android编号           iOS编号               分享平台<br>‘WechatFriends’       ‘kWeixinFriend’      微信好友<br>‘WechatTimeline’      ‘kWeixin’            微信朋友圈<br>‘QQ’                  ‘kQQ’                QQ好友<br>‘Qzone’               ‘kQZone’             QQ空间<br>‘SinaWeibo’           ‘kSinaWeibo’         微博<br>undefined             undefined            分享面板</p>
+<h4 id="qq浏览器的分享"><a href="#QQ浏览器的分享" class="headerlink" title="QQ浏览器的分享"></a>QQ浏览器的分享</h4><p>QQ浏览器也提供了JS API调用Native的分享，同样支持唤起分享面板、生成二维码和分享到具体平台。<br>首先需要引入如下JS文件：</p>
+<pre><code>&lt;script src=&quot;//jsapi.qq.com/get?api=app.share&quot;&gt;&lt;/script&gt;
+</code></pre><p>代码如下：</p>
+<pre><code>browser.app.share({
+    title: share.title,
+    description: share.desc,
+    url: share.share_url,
+    img_url: share.image_url,
+    from: &apos;掌上理工大&apos;,
+    to_app: platform
+});
+</code></pre><p>其中platform是分享平台类型，取值如下：</p>
+<pre><code>编号        分享平台
+1           微信好友
+8           微信朋友圈
+4           QQ好友
+3           QQ空间
+11          微博
+5           更多
+7           生成二维码
+10          复制链接
+undefined   分享面板
+</code></pre><p>作者：Crazy_Urus<br>链接：<a href="https://juejin.im/post/5a61a8b86fb9a01cba42a742" target="_blank" rel="external">https://juejin.im/post/5a61a8b86fb9a01cba42a742</a><br>来源：掘金</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/web/" rel="tag"># web</a>
+          
+            <a href="/tags/js/" rel="tag"># js</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/17/axios/" rel="next" title="axios">
+                <i class="fa fa-chevron-left"></i> axios
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/03/web-app/" rel="prev" title="在ios桌面添加web站点图标及增加启动画面">
+                在ios桌面添加web站点图标及增加启动画面 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <div class="site-author-image">
+            <img itemprop="image"
+               src="/images/avatar.gif"
+               alt="Mr.zhao" />
+               <span>WEB前端开发</span>
+          </div>
+          <p class="site-author-name" itemprop="name">Mr.zhao</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhaozonghu" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+        <br/>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#微信分享"><span class="nav-number">1.</span> <span class="nav-text">微信分享</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#qqtim的分享"><span class="nav-number">2.</span> <span class="nav-text">QQ/TIM的分享</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#微博的分享"><span class="nav-number">3.</span> <span class="nav-text">微博的分享</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#支付宝的分享"><span class="nav-number">4.</span> <span class="nav-text">支付宝的分享</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#uc浏览器的分享"><span class="nav-number">5.</span> <span class="nav-text">UC浏览器的分享</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#qq浏览器的分享"><span class="nav-number">6.</span> <span class="nav-text">QQ浏览器的分享</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mr.zhao</span>
+  <span>&nbsp;&nbsp;&nbsp;<a href="http://www.miibeian.gov.cn/" target="_blank">蜀ICP备17018804号-1</a></span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+  
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1271905909'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/stat.php%3Fid%3D1271905909%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+
+
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

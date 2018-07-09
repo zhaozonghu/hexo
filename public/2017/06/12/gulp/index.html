@@ -99,7 +99,7 @@
 <meta property="og:url" content="http://zhaozonghu.me/2017/06/12/gulp/index.html">
 <meta property="og:site_name" content="Mr.zhao">
 <meta property="og:image" content="http://or49syh5a.bkt.clouddn.com/525072a07f737c14623sfefs1.png">
-<meta property="og:updated_time" content="2017-06-14T02:07:59.030Z">
+<meta property="og:updated_time" content="2017-07-20T00:48:54.926Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Gulp 自动化构建工具-初探">
 <meta name="twitter:image" content="http://or49syh5a.bkt.clouddn.com/525072a07f737c14623sfefs1.png">
@@ -138,22 +138,6 @@
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   
   
@@ -382,6 +366,7 @@ var less = require(&apos;gulp-less&apos;);//less编译
 var plumber = require(&apos;gulp-plumber&apos;);//异常处理
 var notify = require(&apos;gulp-notify&apos;);
 var autoprefixer = require(&apos;gulp-autoprefixer&apos;);//css3前缀自动补全
+var px2rem = require(&apos;gulp-px3rem&apos;);//px转换rem
 
 //清除文件
 gulp.task(&apos;clean&apos;,function(cb){
@@ -433,6 +418,12 @@ gulp.task(&apos;autoFx&apos;,[&apos;css&apos;],function(){
             browsers: [&apos;last 5 versions&apos;]
         }))
         .pipe(gulp.dest(&apos;./dist/css&apos;));
+});
+//css px2rem
+gulp.task(&apos;px2rem&apos;, function() {
+    return gulp.src(&apos;./dist/css/*.css&apos;)
+        .pipe(px2rem())
+        .pipe(gulp.dest(&apos;./dist/css&apos;))
 });
 //压缩html
 gulp.task(&apos;html&apos;, function() {
@@ -489,6 +480,7 @@ gulp.task(&apos;tigger&apos;,[&apos;css&apos;,&apos;js&apos;,&apos;img&apos;,&ap
 <li><a href="https://www.npmjs.com/package/gulp-rev/" target="_blank" rel="external">gulp-rev</a>：版本控制</li>
 <li><a href="https://www.npmjs.com/package/gulp-rev-collector/" target="_blank" rel="external">gulp-rev-collector</a>：文件名称替换（rev）</li>
 <li><a href="https://www.npmjs.com/package/gulp-autoprefixer" target="_blank" rel="external">gulp-autoprefixer</a>：css3前缀补全</li>
+<li><a href="https://www.npmjs.com/package/gulp-px3rem" target="_blank" rel="external">gulp-px3rem</a>：css3前缀补全</li>
 </ol>
 <blockquote>
 <p><a href="http://www.gulpjs.com.cn/" target="_blank" rel="external">gulp中文教程</a></p>
@@ -544,6 +536,10 @@ gulp.task(&apos;tigger&apos;,[&apos;css&apos;,&apos;js&apos;,&apos;img&apos;,&ap
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/20/js-open-app/" rel="prev" title="JS与APP应用交互">
+                JS与APP应用交互 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -618,7 +614,7 @@ gulp.task(&apos;tigger&apos;,[&apos;css&apos;,&apos;js&apos;,&apos;img&apos;,&ap
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -629,7 +625,7 @@ gulp.task(&apos;tigger&apos;,[&apos;css&apos;,&apos;js&apos;,&apos;img&apos;,&ap
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -640,7 +636,7 @@ gulp.task(&apos;tigger&apos;,[&apos;css&apos;,&apos;js&apos;,&apos;img&apos;,&ap
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
@@ -674,7 +670,6 @@ gulp.task(&apos;tigger&apos;,[&apos;css&apos;,&apos;js&apos;,&apos;img&apos;,&ap
         
 
         <br/>
-        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=380 src="//music.163.com/outchain/player?type=0&id=754337961&auto=0&height=380"></iframe>
       </section>
 
       
@@ -710,11 +705,12 @@ gulp.task(&apos;tigger&apos;,[&apos;css&apos;,&apos;js&apos;,&apos;img&apos;,&ap
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Mr.zhao</span>
+  <span>&nbsp;&nbsp;&nbsp;<a href="http://www.miibeian.gov.cn/" target="_blank">蜀ICP备17018804号-1</a></span>
 </div>
 
 
@@ -743,6 +739,10 @@ gulp.task(&apos;tigger&apos;,[&apos;css&apos;,&apos;js&apos;,&apos;img&apos;,&ap
   
 
   
+  
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1271905909'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/stat.php%3Fid%3D1271905909%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+
+
 </div>
 
 

@@ -17,5 +17,6 @@
       {{ theme.busuanzi_count.site_pv_footer }}
     </span>
   {% endif %}
+  {% include 'cnzz-analytics.swig' %}
 </div>
 {% endif %}
