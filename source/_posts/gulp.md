@@ -4,10 +4,6 @@ categories: web
 tags: node
 ---
 
-![gulp](http://or49syh5a.bkt.clouddn.com/525072a07f737c14623sfefs1.png)
-
-<!--more-->
-
 ##### 入门
 
 ###### 全局安装 gulp
@@ -29,7 +25,7 @@ tags: node
 然后使用下面命令即可：
 
 	$ gulp auto
-
+<!--more-->
 ###### 删除模块安装
 
 	$ npm install --save-dev gulp del

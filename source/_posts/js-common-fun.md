@@ -260,8 +260,7 @@ tags: [web,js]
 			wechat: t.indexOf("MicroMessenger") > -1,
 			weibo: t.toLowerCase().indexOf("weibo") > -1,
 			qq: t.indexOf("QQ/") > -1,
-			qqbrowser: t.indexOf("MQQBrowser") > -1,
-			qybrowser: t.indexOf("QianYing") > -1
+			qqbrowser: t.indexOf("MQQBrowser") > -1
 		} : {}
 	}();
 	

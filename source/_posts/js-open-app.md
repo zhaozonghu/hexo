@@ -8,9 +8,9 @@ JS打开app应用，如果不存在就去下载应用
 
 	    var APPCommon = {
         iphoneSchema: 'yr-hotblood://',
-        iphoneDownUrl: 'https://itunes.apple.com/us/app/%E5%8D%83%E5%BD%B1%E7%BB%BF%E8%89%B2%E6%B5%8F%E8%A7%88%E5%99%A8/id1192687716?l=zh&ls=1&mt=8',
+        iphoneDownUrl: '',
         androidSchema: 'yr-hotblood://',
-        androidDownUrl: 'http://share.rxpkapp.com/hotbloodpoker1.4.2.apk',
+        androidDownUrl: '',
         openApp: function () {
             var this_ = this;
             //微信
